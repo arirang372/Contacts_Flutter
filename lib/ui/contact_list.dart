@@ -8,24 +8,23 @@ import 'dart:convert';
 
 class ContactListActivity extends StatelessWidget
 {
-  final String title;
+    final String title;
 
-  ContactListActivity({Key key, this.title}): super(key: key);
+    ContactListActivity({Key key, this.title}): super(key: key);
 
-  @override
-  Widget build(BuildContext context)
-  {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body:Container(
-          child: ContactList(),
-        )
-    );
-  }
+    @override
+    Widget build(BuildContext context)
+    {
+        return Scaffold(
+            appBar: AppBar(
+              title: Text(title),
+            ),
+            body:Container(
+              child: ContactList(),
+            )
+        );
+    }
 }
-
 
 class ContactList extends StatefulWidget
 {
@@ -71,8 +70,6 @@ class ContactListState extends State<ContactList>
           favoriteContacts = contacts.where( (c)=> c.isFavorite).toList();
           otherContacts = contacts.where( (c)=> !c.isFavorite).toList();
         });
-
-
       }
   }
 
@@ -80,63 +77,62 @@ class ContactListState extends State<ContactList>
   Widget build(BuildContext context)
   {
     final topSection = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(left:15.0, top: 15.0),
-          child:    Text('FAVORITE CONTACTS',
-            style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.w600,
-                fontSize: 18.0
-            ),) ,
-        ),
-        Container(
-          height: 270.0,
-          margin: EdgeInsets.only(top: 15.0),
-          child:  ListView.builder(
-              itemCount: favoriteContacts.length,
-              itemBuilder: (BuildContext context, int position)
-              {
-                return getFavoriteContactItem(position);
-              }),
-        )
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left:15.0, top: 15.0),
+                            child:    Text('FAVORITE CONTACTS',
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18.0
+                              ),) ,
+                          ),
+                          Container(
+                            height: 270.0,
+                            margin: EdgeInsets.only(top: 15.0),
+                            child:  ListView.builder(
+                                itemCount: favoriteContacts.length,
+                                itemBuilder: (BuildContext context, int position)
+                                {
+                                  return getFavoriteContactItem(position);
+                                }),
+                          )
 
       ],
     );
 
     final bottomSection =  Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(left:15.0, top: 15.0),
-          child:    Text('OTHER CONTACTS',  style: TextStyle(
-              color: Colors.blue,
-              fontWeight: FontWeight.w600,
-              fontSize: 18.0
-          ),) ,
-        ),
-        Container(
-            height:270.0,
-            margin: EdgeInsets.only(top: 15.0),
-            child:  ListView.builder(
-                itemCount: otherContacts.length,
-                itemBuilder: (BuildContext context, int position)
-                {
-                  return getOtherContactItem(position);
-                })
-        )
-
-      ],
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(left:15.0, top: 15.0),
+                                child:    Text('OTHER CONTACTS',  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18.0
+                                ),) ,
+                              ),
+                              Container(
+                                  height:270.0,
+                                  margin: EdgeInsets.only(top: 15.0),
+                                  child:  ListView.builder(
+                                      itemCount: otherContacts.length,
+                                      itemBuilder: (BuildContext context, int position)
+                                      {
+                                        return getOtherContactItem(position);
+                                      })
+                              )
+                            ],
     );
 
     return Column(
-      children: <Widget>[
-        topSection,
-        bottomSection
-      ],
+                    children: <Widget>[
+                      topSection,
+                      bottomSection
+                    ],
     );
   }
 
@@ -161,43 +157,47 @@ class ContactItem extends StatelessWidget
   Widget build(BuildContext context)
   {
       var leftSection = Container(
-        margin: const EdgeInsets.only(left: 10.0, right:10.0),
-        child: CircleAvatar(
-          backgroundImage: NetworkImage(contact.smallImageURL),
-          radius: 24.0,
-        ),
-      );
+                        margin: const EdgeInsets.only(left: 10.0, top:10.0, right:10.0),
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(contact.smallImageURL),
+                          radius: 24.0,
+                        ),
+                      );
 
       var middleSection = Container(
-          child: contact.isFavorite ? Icon(Icons.star) : Icon(Icons.star_border)
-      );
+                          margin: const EdgeInsets.only(left: 10.0, top:10.0, right:10.0),
+                          child: contact.isFavorite ? Icon(Icons.star) : Icon(Icons.star_border)
+                          );
+
+      var companyNameSection = Container(
+                                    child:Text('${contact.companyName}',
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16.0
+                                      ),)
+                                );
 
       var rightSection = Container(
-          padding: EdgeInsets.only(left: 8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                child:Text(contact.name != 'null' ? '${contact.name}':'',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16.0
-                  ),),
-              ),
-              Container(
-                  child:Text('${contact.companyName}',
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.0
-                    ),)
-              )
-            ],
-          )
+                          padding: EdgeInsets.only(left: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                child:Text(contact.name != null ? '${contact.name}': '',
+                                  style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.0
+                                        ),),
+                              ),
+                              contact.companyName != null ? companyNameSection : Container()
+                            ],
+                          )
       );
+
 
       return  GestureDetector(
                 onTap: (){
@@ -209,15 +209,15 @@ class ContactItem extends StatelessWidget
                     );
                 },
                 child:Container(
-                  padding: EdgeInsets.all(5.0),
-                  child: Row(
-                    children: <Widget>[
-                      leftSection,
-                      middleSection,
-                      rightSection
-                    ],
-                  ),
-                ),
+                      padding: EdgeInsets.all(5.0),
+                      child: Row(
+                        children: <Widget>[
+                          leftSection,
+                          middleSection,
+                          rightSection
+                        ],
+                      ),
+                    ),
               );
     }
 }

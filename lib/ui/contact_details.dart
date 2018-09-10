@@ -10,6 +10,16 @@ class ContactDetailsActivity extends StatelessWidget
     @override
     Widget build(BuildContext context)
     {
+        var companyNameSection = Container(
+                                            margin: EdgeInsets.only(bottom: 16.0),
+                                            child: Text('${contact.companyName}',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 15.0
+                                              ),
+                                            ));
+
         var imageSection = Column(
                              mainAxisAlignment: MainAxisAlignment.center,
                              mainAxisSize: MainAxisSize.min,
@@ -30,14 +40,9 @@ class ContactDetailsActivity extends StatelessWidget
                                                                         fontSize: 20.0
                                             ),),
                                       ),
-                                      Container(
-                                            child: Text('${contact.companyName}',
-                                                                        style: TextStyle(
-                                                                        color: Colors.black,
-                                                                        fontWeight: FontWeight.w600,
-                                                                        fontSize: 15.0
-                                                                        ),
-                                      ))
+                                      contact.companyName != null ? companyNameSection : Container(
+                                                                                          margin: EdgeInsets.only(bottom: 16.0),
+                                                                                          )
                              ],
                         );
 
@@ -50,9 +55,9 @@ class ContactDetailsActivity extends StatelessWidget
                 body: ListView(
                            children: [
                                     imageSection,
-                                    buildPhoneSection("${contact.phone.work}", "WORK"),
-                                    buildPhoneSection("${contact.phone.home}", "HOME"),
-                                    buildPhoneSection("${contact.phone.mobile}", "MOBILE"),
+                                    contact.phone.work != null ? buildPhoneSection("${contact.phone.work}", "WORK") : Container(),
+                                    contact.phone.home != null ? buildPhoneSection("${contact.phone.home}", "HOME") : Container(),
+                                    contact.phone.mobile != null ? buildPhoneSection("${contact.phone.mobile}", "MOBILE") : Container(),
                                     buildOtherSections("ADDRESS:", "${contact.address.street}, ${contact.address.city}, ${contact.address.state}, ${contact.address.zipCode} , US"),
                                     buildOtherSections("BIRTHDATE:", "${contact.birthdate}"),
                                     buildOtherSections("EMAIL:", "${contact.emailAddress}"),
@@ -62,43 +67,12 @@ class ContactDetailsActivity extends StatelessWidget
         );
     }
 
-    Widget buildOtherSections(String fieldName, String content)
-    {
-        return Container(
 
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                                  Container(
-                                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                                    child: Text(
-                                                            fieldName,
-                                                            style: TextStyle(
-                                                                color: Colors.black,
-                                                                fontWeight: FontWeight.w600,
-                                                                fontSize: 18.0
-                                                            ),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                      padding: const EdgeInsets.only(bottom: 8.0),
-                                                      child: Text(
-                                                            content,
-                                                            style: TextStyle(
-                                                                color: Colors.black,
-                                                                fontSize: 18.0
-                                                            ),
-                                                      )
-                                                  )
-                                        ],
-                              )
-                );
-
-    }
 
     Widget buildPhoneSection(String phoneNumber, String phoneType)
     {
               return  Container(
+
                                         child: Row(
                                                 children:[
                                                 Expanded(
@@ -106,6 +80,7 @@ class ContactDetailsActivity extends StatelessWidget
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: <Widget>[
                                                                       Container(
+                                                                              margin: const EdgeInsets.only(left:10.0, top:8.0, right:5.0),
                                                                               padding: const EdgeInsets.only(bottom: 8.0),
                                                                               child: Text(
                                                                                       "PHONE:",
@@ -117,6 +92,7 @@ class ContactDetailsActivity extends StatelessWidget
                                                                                     ),
                                                                               ),
                                                                       Container(
+                                                                              margin: const EdgeInsets.only(left:10.0, right:5.0),
                                                                               padding: const EdgeInsets.only(bottom: 8.0),
                                                                               child: Text(
                                                                                       phoneNumber,
@@ -134,7 +110,7 @@ class ContactDetailsActivity extends StatelessWidget
                                                     crossAxisAlignment: CrossAxisAlignment.end,
                                                     children: <Widget>[
                                                     Container(
-                                                            padding: const EdgeInsets.only(),
+                                                            margin: const EdgeInsets.only(top:20.0,right:10.0),
                                                             child:Text(
                                                                   phoneType,
                                                                   style: TextStyle(
@@ -148,6 +124,41 @@ class ContactDetailsActivity extends StatelessWidget
                                             ],
                                   ),
                           );
+
+    }
+
+    Widget buildOtherSections(String fieldName, String content)
+    {
+          return Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                                    Container(
+                                            margin: const EdgeInsets.only(left:10.0, top:8.0, right:5.0),
+                                            padding: const EdgeInsets.only(bottom: 8.0),
+                                            child: Text(
+                                              fieldName,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18.0
+                                              ),
+                                            ),
+                                          ),
+                                    Container(
+                                            margin: const EdgeInsets.only(left:10.0, right:5.0),
+                                            padding: const EdgeInsets.only(bottom: 8.0),
+                                            child: Text(
+                                              content,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 18.0
+                                              ),
+                                            )
+                                        )
+                                  ],
+                      )
+                  );
 
     }
 }
